@@ -23,10 +23,13 @@ from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.pipeline import Pipeline
+from sklearn.pipeline import make_pipeline
 from sklearn.naive_bayes import MultinomialNB
 from sklearn import metrics
 from sklearn.metrics import accuracy_score, recall_score, precision_score, confusion_matrix
-
+from lime import lime_text
+from lime.lime_text import LimeTextExplainer
+from nltk.tokenize import word_tokenize
 
 # In[3]:
 
@@ -113,7 +116,7 @@ def best_model2(X_train,X_test,y_train,y_test):
     stop_words_onion.append('onion')
     #Instantiate the classifier and vectorizer
     lr = LogisticRegression(C = 1.0, solver='liblinear')
-    cvec2 = CountVectorizer(stop_words = stop_words_onion)
+    cvec2 = CountVectorizer(stop_words = None)
 
     # Fit and transform the vectorizor
     cvec2.fit(X_train)
@@ -198,9 +201,34 @@ def prediction(corpus, nb, cvec):
     X_test = [corpus]
     Xcvec_test = cvec.transform(X_test)
     preds = nb.predict(Xcvec_test)
+    print(nb.coef_) 
     return preds
 
-if __name__ == "__main__":
+def lime_analysis(nb, cvec,sample):
+    class_names = ['TheOnion', 'nottheonion']
+    c = make_pipeline(cvec, nb)
+    explainer = LimeTextExplainer(class_names=class_names)
+    exp = explainer.explain_instance(sample, c.predict_proba, num_features=9)
+    exp.save_to_file('Fake_oi.html')
+    expmap = exp.as_list()
+    figure = exp.as_pyplot_figure()
+    myhtml = exp.as_html()
+    prediction(sample,nb,cvec)
+    return expmap, figure, myhtml
+
+def my_analysis(nb, cvec, sample, feature_weight_dict):
+    class_names = ['TheOnion', 'nottheonion']
+    word_list = word_tokenize(sample)
+    for i in range(len(word_list)):
+        word_list[i] = word_list[i].lower()
+    word_weight_dict = {}
+    for w in word_list:
+        if w in feature_weight_dict.keys():
+            word_weight_dict[w] = feature_weight_dict[w]
+    return word_weight_dict
+    
+
+def main():
     dnames = ['./data/the_onion.csv', './data/not_onion.csv']
     df_onion = read_data(dnames[0])
     df_not_onion = read_data(dnames[1])
@@ -221,11 +249,24 @@ if __name__ == "__main__":
     
     #gs = countvector_logisticregression(X_train,y_train,X_test,y_test)
     print("-------------Best Model score------------------")
-    nb, cvec = best_model(X_train,X_test,y_train,y_test)
+    nb, cvec = best_model2(X_train,X_test,y_train,y_test)
     #coefficient_analysis(nb,cvec)
+    feature_names = cvec.get_feature_names()
+    feature_weights = nb.coef_[0]
+    feature_weight_dict = {}
+    for i in range(len(feature_names)):
+        feature_weight_dict[feature_names[i]] = feature_weights[i]
+    return nb, cvec, feature_weight_dict
+    
+if __name__ == "__main__":
+    nb, cvec, feature_weight_dict = main()
     
     if len(sys.argv)==2:
         print("------------Prediction of the input argv---------")
         pred = prediction(sys.argv[1],nb,cvec)
         print(pred)
+        expmap, figure, myhtml = lime_analysis(nb, cvec, sys.argv[1])
+        print(expmap)
+        figure.show()
+        #print(myhtml)
 
