@@ -226,6 +226,20 @@ def my_analysis(nb, cvec, sample, feature_weight_dict):
         if w in feature_weight_dict.keys():
             word_weight_dict[w] = feature_weight_dict[w]
     return word_weight_dict
+
+def plot_myanalysis(word_weight_dict):
+    
+    # create dataframe from lasso coef
+    df_merged = pd.DataFrame(list(word_weight_dict.values()), 
+word_weight_dict.keys(), columns = ["penalized_regression_coefficients"])
+    # plot the dataframe
+    fig, ax = plt.subplots()
+    fig.set_size_inches(8, 6)
+    fig.suptitle('Coefficients!', size=14)
+    ax = sns.barplot(x = 'penalized_regression_coefficients', y= df_merged.index, 
+    data=df_merged)
+    ax.set(xlabel='Penalized Regression Coefficients')
+    plt.tight_layout(pad=3, w_pad=0, h_pad=0);
     
 
 def main():
@@ -269,4 +283,6 @@ if __name__ == "__main__":
         print(expmap)
         figure.show()
         #print(myhtml)
+        word_weight_dict = my_analysis(nb, cvec, sys.argv[1], feature_weight_dict)
+        plot_myanalysis(word_weight_dict)
 
