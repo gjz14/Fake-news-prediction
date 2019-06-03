@@ -13,8 +13,8 @@ import pickle
 # Data Visualization
 import matplotlib.pyplot as plt
 import seaborn as sns
-get_ipython().run_line_magic('config', "InlineBackend.figure_format = 'retina'")
-get_ipython().run_line_magic('matplotlib', 'inline')
+#get_ipython().run_line_magic('config', "InlineBackend.figure_format = 'retina'")
+#get_ipython().run_line_magic('matplotlib', 'inline')
 
 # Natural Language Processing
 from sklearn.feature_extraction import stop_words
@@ -214,7 +214,7 @@ def lime_analysis(nb, cvec,sample):
     expmap = exp.as_list()
     figure = exp.as_pyplot_figure()
     myhtml = exp.as_html()
-    prediction(sample,nb,cvec)
+    #prediction(sample,nb,cvec)
     return expmap, figure, myhtml
 
 def my_analysis(nb, cvec, sample, feature_weight_dict):
@@ -230,6 +230,8 @@ def my_analysis(nb, cvec, sample, feature_weight_dict):
 
 def plot_myanalysis(word_weight_dict):
     
+    if(len(word_weight_dict)==0):
+        return False
     # create dataframe from lasso coef
     df_merged = pd.DataFrame(list(word_weight_dict.values()), 
 word_weight_dict.keys(), columns = ["penalized_regression_coefficients"])
@@ -241,8 +243,9 @@ word_weight_dict.keys(), columns = ["penalized_regression_coefficients"])
     data=df_merged)
     ax.set(xlabel='Penalized Regression Coefficients')
     plt.tight_layout(pad=3, w_pad=0, h_pad=0);
+    # save my analysis to png file
     plt.savefig('testimage1.png')
-    
+    return True
 
 def main():
     dnames = ['./data/the_onion.csv', './data/not_onion.csv']

@@ -33,15 +33,17 @@ if __name__ == "__main__":
     if len(sys.argv)==2:
         sample = sys.argv[1]
         class_names = ['TheOnion', 'nottheonion']
+        
         word_weight_dict = Fake_master.my_analysis(nb, cvec, sample, feature_weight_dict)
-        Fake_master.plot_myanalysis(word_weight_dict)
+        hasdict = Fake_master.plot_myanalysis(word_weight_dict)
 
         Fake_master.prediction(sample,nb,cvec)
         Fake_master.lime_analysis(nb, cvec,sample)
         driver = webdriver.Chrome(ChromeDriverManager().install())
         driver.get("C:/Users/54440/Desktop/cse256/Final_project/Fake_oi.html")
         #ele = driver.findElement(By.id("top_divVI57UDM0NL5INZZ"));
-        driver.execute_script(open("./myjs_script0.js").read());
+        if hasdict:
+            driver.execute_script(open("./myjs_script0.js").read());
        # driver.execute_script("alert(\"hahaha\")");
 
 
