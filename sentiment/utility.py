@@ -7,6 +7,7 @@ from lime import lime_text
 from sklearn.pipeline import make_pipeline
 from lime.lime_text import LimeTextExplainer
 from nltk.tokenize import word_tokenize
+from sklearn.metrics import confusion_matrix
 import os
 
 def generate_dynamic_analysis(model, vectorizier, out_name, class_names, text):
@@ -17,7 +18,6 @@ def generate_dynamic_analysis(model, vectorizier, out_name, class_names, text):
     for i in range(len(feature_names)):
         feature_weight_dict[feature_names[i]] = feature_weights[i]
         
-   # class_names = ['TheOnion', 'nottheonion']
     word_list = word_tokenize(text)
     for i in range(len(word_list)):
         word_list[i] = word_list[i].lower()
@@ -26,24 +26,62 @@ def generate_dynamic_analysis(model, vectorizier, out_name, class_names, text):
         if w in feature_weight_dict.keys():
             word_weight_dict[w] = feature_weight_dict[w]
             
-    if(len(word_weight_dict)==0):
+    if(len(word_weight_dict) == 0):
         return False
     # create dataframe from lasso coef
-    df_merged = pd.DataFrame(list(word_weight_dict.values()), 
-word_weight_dict.keys(), columns = ["penalized_regression_coefficients"])
+    df_merged = pd.DataFrame(list(word_weight_dict.values()), word_weight_dict.keys(), columns = ["penalized_regression_coefficients"])
     df_merged.sort_values('penalized_regression_coefficients', ascending=False)
     # plot the dataframe
     fig, ax = plt.subplots()
     fig.set_size_inches(8, 6)
     fig.suptitle('Coefficients analysis on feature weights', size=14)
-    ax = sns.barplot(x = 'penalized_regression_coefficients', y= df_merged.index, 
-    data=df_merged)
+    ax = sns.barplot(x = 'penalized_regression_coefficients', y= df_merged.index, data=df_merged)
     ax.set(xlabel='Penalized Regression Coefficients')
-    plt.tight_layout(pad=3, w_pad=0, h_pad=0);
+    plt.tight_layout(pad=3, w_pad=0, h_pad=0)
     # save my analysis to png file
-    path = os.path.join("./img", out_name + "_dynamic.png")
+    path = os.path.join("../img", out_name + "_dynamic.png")
     plt.savefig(path)
     return True
+
+def plot_confusion_matrix(y_true, y_pred, class_names, out_name):
+    """
+    Reference:
+    https://scikit-learn.org/stable/auto_examples/model_selection/plot_confusion_matrix.html
+    This function prints and plots the confusion matrix.
+    Normalization can be applied by setting `normalize=True`.
+    """
+    title = out_name + 'Confusion matrix'
+            
+    # Compute confusion matrix
+    cm = confusion_matrix(y_true, y_pred)
+
+    fig, ax = plt.subplots()
+    im = ax.imshow(cm, interpolation='nearest', cmap=plt.cm.Blues)
+    ax.figure.colorbar(im, ax=ax)
+    # We want to show all ticks...
+    ax.set(xticks=np.arange(cm.shape[1]),
+           yticks=np.arange(cm.shape[0]),
+           # ... and label them with the respective list entries
+           xticklabels=class_names, yticklabels=class_names,
+           title=title,
+           ylabel='True label',
+           xlabel='Predicted label')
+
+    # Rotate the tick labels and set their alignment.
+    plt.setp(ax.get_xticklabels(), rotation=45, ha="right",
+             rotation_mode="anchor")
+
+    # Loop over data dimensions and create text annotations.
+    thresh = cm.max() / 2.
+    for i in range(cm.shape[0]):
+        for j in range(cm.shape[1]):
+            ax.text(j, i, format(cm[i, j], 'd'), ha="center", va="center",
+                    color="white" if cm[i, j] > thresh else "black")
+    fig.tight_layout()
+    # plt.show()
+    path = os.path.join("../img", out_name + "_confusion_matrix.png")
+    plt.savefig(path)
+    return ax
             
 def generate_wordcloud(model, vectorizier, k, out_name):
     coefficients = model.coef_[0]
@@ -69,8 +107,8 @@ def generate_wordcloud(model, vectorizier, k, out_name):
         bottom_k_words.append(vectorizier.get_feature_names()[i])
     print(bottom_k_words)
     print("\n")
-    top_path = os.path.join("./img", out_name + "_top_k.png")
-    bottom_path = os.path.join("./img", out_name + "_bottom_k.png")
+    top_path = os.path.join("../img", out_name + "_top_k.png")
+    bottom_path = os.path.join("../img", out_name + "_bottom_k.png")
     top_k_wordcloud = WordCloud(max_font_size=50, max_words=100, background_color="white").generate(" ".join(top_k_words))
     top_k_wordcloud.to_file(top_path)
     bottom_k_wordcloud = WordCloud(max_font_size=50, max_words=100, background_color="white").generate(" ".join(bottom_k_words))

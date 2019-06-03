@@ -265,7 +265,7 @@ def main():
     clean_data(df_not_onion)
     # Combine df_onion & df_not_onion with only 'subreddit' (target) and 'title' (predictor) columns
     df = pd.concat([df_onion[['subreddit', 'title']], df_not_onion[['subreddit', 'title']]], axis=0)
-    preprocess(df);
+    preprocess(df)
     # Baseline score
     print("--------Baseline score--------------")
     print(df['subreddit'].value_counts(normalize=True))

@@ -3,6 +3,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn import preprocessing, metrics
 from sklearn.linear_model import LogisticRegression
 import utility
+import pickle
 
 def read_files(tarfname):
     """Read the training and development data from the sentiment tar file.
@@ -73,13 +74,26 @@ if __name__ == "__main__":
 
     cls = LogisticRegression(random_state=0, solver='lbfgs', max_iter=10000, C=2.97)
     cls.fit(sentiment.trainX, sentiment.trainy)
+    with open('sentiment_model.txt', 'wb') as f:
+        pickle.dump(cls, f)
+    with open('sentiment_vect.txt', 'wb') as f:
+        pickle.dump(sentiment.vect, f)
+    # with open('feature_weight_dict.txt', 'wb') as f:
+    #     pickle.dump(feature_weight_dict, file3)
+    
     yp = cls.predict(sentiment.devX)
     acc = metrics.accuracy_score(sentiment.devy, yp)
     print("Accuracy: ", acc)
+
+    class_names = ['NEGATIVE', 'POSITIVE']
+
+    utility.plot_confusion_matrix(sentiment.devy, yp, class_names, "sentiment")
     
     utility.generate_wordcloud(cls, sentiment.vect, 10, "sentiment")
-    class_names = ['NEGATIVE', 'POSITIVE']
+
     utility.generate_lime(cls, sentiment.vect, class_names, sentiment.dev_data[0], sentiment.dev_labels[0], "sentiment")
+
+    utility.generate_dynamic_analysis(cls, sentiment.vect, "sentiment", class_names, sentiment.dev_data[0])
         
     # for idx, (x, y) in enumerate(zip(sentiment.devy, yp)):
     #     if x != y:
