@@ -8,6 +8,7 @@
 import sys
 import numpy as np
 import pandas as pd
+import pickle
 
 # Data Visualization
 import matplotlib.pyplot as plt
@@ -201,7 +202,7 @@ def prediction(corpus, nb, cvec):
     X_test = [corpus]
     Xcvec_test = cvec.transform(X_test)
     preds = nb.predict(Xcvec_test)
-    print(nb.coef_) 
+   # print(nb.coef_) 
     return preds
 
 def lime_analysis(nb, cvec,sample):
@@ -240,6 +241,7 @@ word_weight_dict.keys(), columns = ["penalized_regression_coefficients"])
     data=df_merged)
     ax.set(xlabel='Penalized Regression Coefficients')
     plt.tight_layout(pad=3, w_pad=0, h_pad=0);
+    plt.savefig('testimage1.png')
     
 
 def main():
@@ -270,11 +272,20 @@ def main():
     feature_weight_dict = {}
     for i in range(len(feature_names)):
         feature_weight_dict[feature_names[i]] = feature_weights[i]
+    file1 = open('nb.txt', 'wb')
+    pickle.dump(nb, file1)
+    file2 = open('cvec.txt', 'wb')
+    pickle.dump(cvec, file2)
+    file3 = open('feature_weight_dict.txt', 'wb')
+    pickle.dump(feature_weight_dict, file3)
+    file1.close()
+    file2.close()
+    file3.close()
     return nb, cvec, feature_weight_dict
     
 if __name__ == "__main__":
     nb, cvec, feature_weight_dict = main()
-    
+
     if len(sys.argv)==2:
         print("------------Prediction of the input argv---------")
         pred = prediction(sys.argv[1],nb,cvec)
