@@ -115,6 +115,7 @@ def best_model(X_train,X_test,y_train,y_test):
     return nb,cvec
 
 def best_model2(X_train,X_test,y_train,y_test):
+    class_names = ['TheOnion', 'nottheonion']
     stop_words_onion = stop_words.ENGLISH_STOP_WORDS
     stop_words_onion = list(stop_words_onion)
     stop_words_onion.append('onion')
@@ -141,7 +142,7 @@ def best_model2(X_train,X_test,y_train,y_test):
             print(X_test.tolist()[i])
     '''
     print("The mean accuracy on the test set: "+ str(lr.score(Xcvec2_test, y_test)))
-    
+    utility.plot_confusion_matrix(y_test, lr_preds, class_names, "Fake_news")
     return lr, cvec2
 
 
@@ -259,6 +260,7 @@ word_weight_dict.keys(), columns = ["penalized_regression_coefficients"])
 
 def main():
     dnames = ['./data/the_onion.csv', './data/not_onion.csv']
+    class_names = ['TheOnion', 'nottheonion']
     df_onion = read_data(dnames[0])
     df_not_onion = read_data(dnames[1])
     clean_data(df_onion)
