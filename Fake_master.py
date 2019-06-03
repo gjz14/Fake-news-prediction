@@ -6,6 +6,9 @@
 
 # Basic libraries
 import sys
+sys.path.insert(0, './sentiment/')
+
+import utility
 import numpy as np
 import pandas as pd
 import pickle
@@ -130,7 +133,13 @@ def best_model2(X_train,X_test,y_train,y_test):
 
     # Create the predictions for Y training data
     lr_preds = lr.predict(Xcvec2_test)
-
+    '''
+    print(len(lr_preds), len(y_test))
+    for i in range(len(lr_preds.tolist())):
+        if lr_preds.tolist()[i] != y_test.tolist()[i]:
+            print(lr_preds.tolist()[i], y_test.tolist()[i])
+            print(X_test.tolist()[i])
+    '''
     print("The mean accuracy on the test set: "+ str(lr.score(Xcvec2_test, y_test)))
     
     return lr, cvec2
@@ -235,10 +244,11 @@ def plot_myanalysis(word_weight_dict):
     # create dataframe from lasso coef
     df_merged = pd.DataFrame(list(word_weight_dict.values()), 
 word_weight_dict.keys(), columns = ["penalized_regression_coefficients"])
+    df_merged.sort_values('penalized_regression_coefficients', ascending=False)
     # plot the dataframe
     fig, ax = plt.subplots()
     fig.set_size_inches(8, 6)
-    fig.suptitle('Coefficients!', size=14)
+    fig.suptitle('Coefficients analysis on feature weights', size=14)
     ax = sns.barplot(x = 'penalized_regression_coefficients', y= df_merged.index, 
     data=df_merged)
     ax.set(xlabel='Penalized Regression Coefficients')
@@ -284,11 +294,12 @@ def main():
     file1.close()
     file2.close()
     file3.close()
+    utility.generate_wordcloud(nb, cvec, 10, "Fake_news")
     return nb, cvec, feature_weight_dict
     
 if __name__ == "__main__":
     nb, cvec, feature_weight_dict = main()
-
+    
     if len(sys.argv)==2:
         print("------------Prediction of the input argv---------")
         pred = prediction(sys.argv[1],nb,cvec)

@@ -4,9 +4,13 @@
 # In[1]:
 
 import sys
+sys.path.insert(0, './sentiment/')
+
+import utility
 import Fake_master
 import pickle
 from selenium.webdriver.common.keys import Keys
+
 
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
@@ -34,8 +38,11 @@ if __name__ == "__main__":
         sample = sys.argv[1]
         class_names = ['TheOnion', 'nottheonion']
         
+        '''
         word_weight_dict = Fake_master.my_analysis(nb, cvec, sample, feature_weight_dict)
         hasdict = Fake_master.plot_myanalysis(word_weight_dict)
+        '''
+        hasdict = utility.generate_dynamic_analysis(nb, cvec, 'fakenews', ['TheOnion', 'nottheonion'], sample)
 
         Fake_master.prediction(sample,nb,cvec)
         Fake_master.lime_analysis(nb, cvec,sample)
