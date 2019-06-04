@@ -39,14 +39,13 @@ def generate_dynamic_analysis(model, vectorizier, out_name, class_names, text):
     ax.set(xlabel='Penalized Regression Coefficients')
     plt.tight_layout(pad=3, w_pad=0, h_pad=0)
     # save my analysis to png file
-    path = os.path.join("./img", out_name + "_dynamic.png")
+    #path = os.path.join("./img", out_name + "_dynamic.png")
     
     # save to certain file
-    path2 = os.path.join("./static/images/", "fakenews" + "_dynamic.png")
-    plt.savefig(path2)
+    path_name = os.path.join("./static/images/", out_name + "_dynamic.png")
     
-    plt.savefig(path)
-    return True
+    plt.savefig(path_name)
+    return path_name
 
 def plot_confusion_matrix(y_true, y_pred, class_names, out_name):
     """
