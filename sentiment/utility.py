@@ -144,4 +144,31 @@ def generate_lime(model, vectorizier, class_names, text, true_label, out_name):
     exp.as_pyplot_figure().savefig(path_name)
     # fig = exp.as_pyplot_figure()
     # plt.show()
-    return path_name
+    
+    
+    # pie plot
+    
+    X_test = [text]
+    Xcvec_test = vectorizier.transform(X_test)
+    class_names = ['TheOnion','nottheonion']
+    probas = model.predict_proba(Xcvec_test)
+    probas  = probas.tolist()[0]
+
+    labels = class_names[0], class_names[1]
+    sizes = [probas[0],probas[1]]
+    colors = ['lightcoral', 'lightskyblue']
+    explode = ( 0, 0)  # explode 1st slice
+
+    # Plot
+    plt.pie(sizes, explode=explode, labels=labels, colors=colors,
+    autopct='%1.1f%%', shadow=True, startangle=140)
+
+    plt.axis('equal')
+    plt.show()
+    
+    # save to certain file
+    path_name_pie = os.path.join("./static/images/", out_name + "_pie.png")
+    
+    plt.savefig(path_name_pie)
+  
+    return path_name,path_name_pie
