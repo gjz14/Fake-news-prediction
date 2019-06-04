@@ -39,7 +39,12 @@ def generate_dynamic_analysis(model, vectorizier, out_name, class_names, text):
     ax.set(xlabel='Penalized Regression Coefficients')
     plt.tight_layout(pad=3, w_pad=0, h_pad=0)
     # save my analysis to png file
-    path = os.path.join("../img", out_name + "_dynamic.png")
+    path = os.path.join("./img", out_name + "_dynamic.png")
+    
+    # save to certain file
+    path2 = os.path.join("./static/images/", "fakenews" + "_dynamic.png")
+    plt.savefig(path2)
+    
     plt.savefig(path)
     return True
 
@@ -79,7 +84,7 @@ def plot_confusion_matrix(y_true, y_pred, class_names, out_name):
                     color="white" if cm[i, j] > thresh else "black")
     fig.tight_layout()
     # plt.show()
-    path = os.path.join("../img", out_name + "_confusion_matrix.png")
+    path = os.path.join("./img", out_name + "_confusion_matrix.png")
     plt.savefig(path)
     return ax
             
@@ -107,8 +112,8 @@ def generate_wordcloud(model, vectorizier, k, out_name):
         bottom_k_words.append(vectorizier.get_feature_names()[i])
     print(bottom_k_words)
     print("\n")
-    top_path = os.path.join("../img", out_name + "_top_k.png")
-    bottom_path = os.path.join("../img", out_name + "_bottom_k.png")
+    top_path = os.path.join("./img", out_name + "_top_k.png")
+    bottom_path = os.path.join("./img", out_name + "_bottom_k.png")
     top_k_wordcloud = WordCloud(max_font_size=50, max_words=100, background_color="white").generate(" ".join(top_k_words))
     top_k_wordcloud.to_file(top_path)
     bottom_k_wordcloud = WordCloud(max_font_size=50, max_words=100, background_color="white").generate(" ".join(bottom_k_words))
