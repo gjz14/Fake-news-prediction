@@ -119,6 +119,14 @@ def generate_wordcloud(model, vectorizier, k, out_name):
     # plt.show()
 
 def generate_lime(model, vectorizier, class_names, text, true_label, out_name):
+    '''
+    model: the model used to train the data
+    vectorizier: vectorizier used to vectorize data
+    class_names: class of predictions
+    text: input text
+    true_label: actual label of the text
+    out_name: output file name
+    '''
     c = make_pipeline(vectorizier, model)
     explainer = LimeTextExplainer(class_names=class_names)
     exp = explainer.explain_instance(text, c.predict_proba, num_features=6)
@@ -127,8 +135,8 @@ def generate_lime(model, vectorizier, class_names, text, true_label, out_name):
     print('Prediction: ', class_names[c.predict([text])[0]])
     print('True class: %s' % true_label)
 
-    path_name = os.path.join("../lime", out_name)
-    exp.save_to_file(path_name + ".html")
-    # exp.as_pyplot_figure().savefig(path_name + ".jpg")
+    path_name = os.path.join("./static/images", out_name)
+    # exp.save_to_file(path_name + ".html")
+    exp.as_pyplot_figure().savefig(path_name + "_lime.png")
     # fig = exp.as_pyplot_figure()
     # plt.show()
