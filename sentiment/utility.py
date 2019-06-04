@@ -153,7 +153,7 @@ def generate_lime(model, vectorizier, class_names, text, out_name, num_features)
     labels = class_names[0], class_names[1]
     sizes = [probas[0],probas[1]]
     colors = ['lightcoral', 'lightskyblue']
-    explode = ( 0, 0)  # explode 1st slice
+    explode = (0, 0)  # explode 1st slice
 
     # Plot
     plt.pie(sizes, explode=explode, labels=labels, colors=colors,

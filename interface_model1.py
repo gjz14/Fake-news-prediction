@@ -7,7 +7,7 @@ import pickle
 from nltk.tokenize import word_tokenize
 
 if __name__ == "__main__":
-    file = open('./modeldata/sentiment.txt', 'rb')
+    file = open('./modeldata/sentiment_model.txt', 'rb')
     nb = pickle.load(file)
     file.close()
 
