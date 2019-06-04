@@ -46,10 +46,8 @@ if __name__ == "__main__":
         figpath = utility.generate_dynamic_analysis(nb, cvec, 'fakenews', class_names, sample)
         # fig path is the image path for dynamic analysis images
         Fake_master.prediction(sample,nb,cvec)
-        limepath, piepath = utility.generate_lime(nb, cvec, class_names, sample, 'TheOnion', 'fakenews', num_features)
+        limepath, piepath = utility.generate_lime(nb, cvec, class_names, sample, 'fakenews', num_features)
         # lime path is the image path for lime analysis images
-        
-        return {'myanalysis_figpath':figpath,'limepath':limepath, 'piepath':piepath}
 
 
 # In[2]:

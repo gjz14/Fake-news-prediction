@@ -122,13 +122,12 @@ def generate_wordcloud(model, vectorizier, k, out_name):
     # plt.axis("off")
     # plt.show()
 
-def generate_lime(model, vectorizier, class_names, text, true_label, out_name, num_features):
+def generate_lime(model, vectorizier, class_names, text, out_name, num_features):
     '''
     model: the model used to train the data
     vectorizier: vectorizier used to vectorize data
     class_names: class of predictions
     text: input text
-    true_label: actual label of the text
     out_name: output file name
     '''
     c = make_pipeline(vectorizier, model)
@@ -137,7 +136,6 @@ def generate_lime(model, vectorizier, class_names, text, true_label, out_name, n
     print('Input text: ', text)
     print('Probability(%s) =' % class_names[1], c.predict_proba([text])[0, 1])
     print('Prediction: ', class_names[c.predict([text])[0]])
-    print('True class: %s' % true_label)
 
     path_name = os.path.join("./static/images", out_name + "_lime.png")
     # exp.save_to_file(path_name + ".html")
@@ -145,14 +143,12 @@ def generate_lime(model, vectorizier, class_names, text, true_label, out_name, n
     # fig = exp.as_pyplot_figure()
     # plt.show()
     
-    
     # pie plot
     
     X_test = [text]
     Xcvec_test = vectorizier.transform(X_test)
-    class_names = ['TheOnion','nottheonion']
     probas = model.predict_proba(Xcvec_test)
-    probas  = probas.tolist()[0]
+    probas = probas.tolist()[0]
 
     labels = class_names[0], class_names[1]
     sizes = [probas[0],probas[1]]
@@ -171,4 +167,4 @@ def generate_lime(model, vectorizier, class_names, text, true_label, out_name, n
     
     plt.savefig(path_name_pie)
   
-    return path_name,path_name_pie
+    return path_name, path_name_pie

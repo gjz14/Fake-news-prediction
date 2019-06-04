@@ -91,9 +91,9 @@ if __name__ == "__main__":
     
     utility.generate_wordcloud(cls, sentiment.vect, 10, "sentiment")
 
-    utility.generate_lime(cls, sentiment.vect, class_names, sentiment.dev_data[0], sentiment.dev_labels[0], "sentiment")
+    utility.generate_lime(cls, sentiment.vect, class_names, sentiment.dev_data[0], "sentiment", 6)
 
-    utility.generate_dynamic_analysis(cls, sentiment.vect, "sentiment", class_names, sentiment.dev_data[0])
+    fig = utility.generate_dynamic_analysis(cls, sentiment.vect, "sentiment", class_names, sentiment.dev_data[0])
         
     # for idx, (x, y) in enumerate(zip(sentiment.devy, yp)):
     #     if x != y:

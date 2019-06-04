@@ -24,5 +24,5 @@ if __name__ == "__main__":
         figpath = utility.generate_dynamic_analysis(nb, cvec, 'sentiment', class_names, sample)
         # fig path is the image path for dynamic analysis images
         
-        limepath, piepath = utility.generate_lime(nb, cvec, class_names, sample, 'NEGATIVE', 'sentiment', num_features)
+        limepath, piepath = utility.generate_lime(nb, cvec, class_names, sample, 'sentiment', num_features)
         # lime path is the image path for lime analysis images    
