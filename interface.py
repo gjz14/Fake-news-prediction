@@ -24,15 +24,15 @@ from nltk.tokenize import word_tokenize
 if __name__ == "__main__":
     file = open('./modeldata/nb.txt', 'rb')
     nb = pickle.load(file)
-    file.close();
+    file.close()
 
     file = open('./modeldata/cvec.txt', 'rb')
     cvec = pickle.load(file)
-    file.close();
+    file.close()
 
     file = open('./modeldata/feature_weight_dict.txt', 'rb')
     feature_weight_dict = pickle.load(file)
-    file.close();
+    file.close()
     
     if len(sys.argv)==2:
         sample = sys.argv[1]
@@ -42,16 +42,13 @@ if __name__ == "__main__":
         word_weight_dict = Fake_master.my_analysis(nb, cvec, sample, feature_weight_dict)
         hasdict = Fake_master.plot_myanalysis(word_weight_dict)
         '''
-        hasdict = utility.generate_dynamic_analysis(nb, cvec, 'fakenews', ['TheOnion', 'nottheonion'], sample)
-
+        figpath = utility.generate_dynamic_analysis(nb, cvec, 'fakenews', class_names, sample)
+        # fig path is the image path for dynamic analysis images
         Fake_master.prediction(sample,nb,cvec)
-        Fake_master.lime_analysis(nb, cvec,sample)
-        driver = webdriver.Chrome(ChromeDriverManager().install())
-        driver.get("C:/Users/54440/Desktop/cse256/Final_project/Fake_oi.html")
-        #ele = driver.findElement(By.id("top_divVI57UDM0NL5INZZ"));
-        if hasdict:
-            driver.execute_script(open("./myjs_script0.js").read());
-       # driver.execute_script("alert(\"hahaha\")");
+        limepath = utility.generate_lime(nb, cvec, class_names, sample, 'TheOnion', 'fakenews')
+        # lime path is the image path for lime analysis images
+        
+        return {'myanalysis_figpath':figpath,'limepath':limepath}
 
 
 # In[2]:
