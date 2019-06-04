@@ -140,8 +140,9 @@ def generate_lime(model, vectorizier, class_names, text, true_label, out_name):
     print('Prediction: ', class_names[c.predict([text])[0]])
     print('True class: %s' % true_label)
 
-    path_name = os.path.join("./static/images", out_name)
+    path_name = os.path.join("./static/images", out_name + "_lime.png")
     # exp.save_to_file(path_name + ".html")
-    exp.as_pyplot_figure().savefig(path_name + "_lime.png")
+    exp.as_pyplot_figure().savefig(path_name)
     # fig = exp.as_pyplot_figure()
     # plt.show()
+    return path_name
