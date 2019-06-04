@@ -122,7 +122,7 @@ def generate_wordcloud(model, vectorizier, k, out_name):
     # plt.axis("off")
     # plt.show()
 
-def generate_lime(model, vectorizier, class_names, text, true_label, out_name):
+def generate_lime(model, vectorizier, class_names, text, true_label, out_name, num_features):
     '''
     model: the model used to train the data
     vectorizier: vectorizier used to vectorize data
@@ -133,7 +133,7 @@ def generate_lime(model, vectorizier, class_names, text, true_label, out_name):
     '''
     c = make_pipeline(vectorizier, model)
     explainer = LimeTextExplainer(class_names=class_names)
-    exp = explainer.explain_instance(text, c.predict_proba, num_features=6)
+    exp = explainer.explain_instance(text, c.predict_proba, num_features=num_features)
     print('Input text: ', text)
     print('Probability(%s) =' % class_names[1], c.predict_proba([text])[0, 1])
     print('Prediction: ', class_names[c.predict([text])[0]])

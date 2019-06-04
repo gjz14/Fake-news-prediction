@@ -34,8 +34,9 @@ if __name__ == "__main__":
     feature_weight_dict = pickle.load(file)
     file.close()
     
-    if len(sys.argv)==2:
+    if len(sys.argv)==3:
         sample = sys.argv[1]
+        num_features = sys.argv[2]
         class_names = ['TheOnion', 'nottheonion']
         
         '''
@@ -45,10 +46,10 @@ if __name__ == "__main__":
         figpath = utility.generate_dynamic_analysis(nb, cvec, 'fakenews', class_names, sample)
         # fig path is the image path for dynamic analysis images
         Fake_master.prediction(sample,nb,cvec)
-        limepath = utility.generate_lime(nb, cvec, class_names, sample, 'TheOnion', 'fakenews')
+        limepath, piepath = utility.generate_lime(nb, cvec, class_names, sample, 'TheOnion', 'fakenews', num_features)
         # lime path is the image path for lime analysis images
         
-        return {'myanalysis_figpath':figpath,'limepath':limepath}
+        return {'myanalysis_figpath':figpath,'limepath':limepath, 'piepath':piepath}
 
 
 # In[2]:
