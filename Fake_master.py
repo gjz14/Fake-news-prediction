@@ -296,7 +296,7 @@ def main():
     file1.close()
     file2.close()
     file3.close()
-    utility.generate_wordcloud(nb, cvec, 10, "Fake_news")
+    utility.generate_wordcloud(nb, cvec, 20, "Fake_news")
     return nb, cvec, feature_weight_dict
     
 if __name__ == "__main__":

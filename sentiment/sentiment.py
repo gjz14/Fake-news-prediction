@@ -89,7 +89,7 @@ if __name__ == "__main__":
 
     utility.plot_confusion_matrix(sentiment.devy, yp, class_names, "sentiment")
     
-    utility.generate_wordcloud(cls, sentiment.vect, 10, "sentiment")
+    utility.generate_wordcloud(cls, sentiment.vect, 20, "sentiment")
 
     utility.generate_lime(cls, sentiment.vect, class_names, sentiment.dev_data[0], "sentiment", 6)
 

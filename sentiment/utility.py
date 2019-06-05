@@ -89,7 +89,6 @@ def plot_confusion_matrix(y_true, y_pred, class_names, out_name):
             
 def generate_wordcloud(model, vectorizier, k, out_name):
     coefficients = model.coef_[0]
-    k = 8
     top_k =np.argsort(coefficients)[-k:]
     top_k_words = []
 
