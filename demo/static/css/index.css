@@ -1,0 +1,14 @@
+.main{
+    text-align: left;
+}
+
+section {
+    min-width:350px;
+    width: auto;
+    float:left;
+    padding:100px;
+}
+
+.title{
+    font-weight: bold;
+}

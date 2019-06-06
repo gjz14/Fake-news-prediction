@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    model 2
+{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/part2.css') }}">
+{% endblock %}
+
+{% block main %}
+    <div class="red">
+        <div>
+            <section>
+                <br>
+                <br>
+
+                <h1>Task 2: Fake News Classification</h1>
+                <br>
+                <br>
+
+            </section>
+
+        </div>
+    </div>
+
+
+    <ul class="clearfix">
+        <li>
+            <div class="content">
+                <div class="img-wrap">
+                    <img src="{{ url_for('static', filename='images/onion.png',_t=t) }}" alt="">
+                </div>
+                <div class="title"></div>
+            </div>
+        </li>
+
+        <li>
+            <div class="content">
+                <div class="img-wrap">
+                    <img src="{{ url_for('static', filename='images/nononion.png',_t=t) }}" alt="">
+                </div>
+                <div class="title"></div>
+            </div>
+        </li>
+        <br>
+        <li>
+            <div class="content">
+                <div class="img-wrap">
+                    <img src="{{ url_for('static', filename='images/Fake_news_top_k.png') }}">
+                </div>
+                <div class="title">wordCloud: top words for the Onion</div>
+            </div>
+        </li>
+        <li>
+            <div class="content">
+                <div class="img-wrap">
+                    <img src="{{ url_for('static', filename='images/Fake_news_bottom_k.png') }}">
+                </div>
+                <div class="title">wordCloud: top words for non-Onion</div>
+            </div>
+        </li>
+        <li>
+            <div class="content">
+                <div class="img-wrap">
+                    <img src="{{ url_for('static', filename='images/Fake_news_confusion_matrix.png') }}">
+                </div>
+                <div class="title">F1 score: 0.8816</div>
+            </div>
+        </li>
+    </ul>
+
+
+
+
+    <div class="red">
+        <div>
+            <section>
+                <br>
+                <br>
+
+                <h1>Personal Test of Task 2: </h1>
+                <br>
+                <br>
+                <br>
+                <br>
+
+            </section>
+
+        </div>
+    </div>
+
+
+
+
+    <form action="http://localhost:5000/part2_res/" method="POST">
+          <h3 class="test">Model2 TEST</h3>
+          <div class="form-container">
+              <div class="form-group">
+                <input type="text" name='name' class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="your sentence">
+              </div>
+              <div class="form-group">
+                <input type="text" name='num' class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="specify number of args in lime">
+              </div>
+
+              <button type="submit" class="btn btn-primary">Submit</button>
+              <br>
+              <br>
+              <br>
+          </div>
+    </form>
+{% endblock %}

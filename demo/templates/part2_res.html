@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    model 1
+{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/part2_res.css') }}">
+{% endblock %}
+
+{% block main %}
+
+    <div class="red">
+        <div>
+            <section>
+                <br>
+                <br>
+
+                <h1>Personal Test Input of Model 2: </h1>
+                <br>
+                <br>
+                <h3>{{ input }}</h3>
+                <br>
+                <br>
+
+            </section>
+            <section>
+                <br>
+                <br>
+
+                <h1>Personal Test Result of Model 2: </h1>
+                <br>
+                <br>
+
+            </section>
+
+        </div>
+    </div>
+
+    <ul class="clearfix">
+        <li>
+            <div class="content">
+                <div class="img-wrap">
+                    <img src="{{ url_for('static', filename='images/fakenews_pie.png',_t=t) }}" alt="">
+                </div>
+                <div class="title"></div>
+            </div>
+        </li>
+        <li>
+            <div class="content">
+                <div class="img-wrap">
+
+                    <img src="{{ url_for('static', filename='images/fakenews_dynamic.png',_t=t) }}" alt="">
+                </div>
+                <div class="title"></div>
+            </div>
+        </li>
+        <li>
+            <div class="content">
+                <div class="img-wrap">
+                    <img src="{{ url_for('static', filename='images/fakenews_lime.png',_t=t) }}" alt="">
+                </div>
+                <div class="title"></div>
+            </div>
+        </li>
+
+    </ul>
+
+
+
+
+
+
+
+{% endblock %}

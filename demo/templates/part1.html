@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    model 1
+{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/part1.css') }}">
+{% endblock %}
+
+{% block main %}
+    <div class="red">
+        <div>
+            <section>
+                <br>
+                <br>
+
+                <h1>Task 1: Review Sentiment Classification</h1>
+                <br>
+                <br>
+
+            </section>
+
+        </div>
+    </div>
+
+    <ul class="clearfix">
+        <li>
+            <div class="content">
+                <div class="img-wrap">
+                    <img src="{{ url_for('static', filename='images/sentiment_top_k.png') }}">
+                </div>
+                <div class="title">wordCloud: top words for positive sentiment</div>
+            </div>
+        </li>
+        <li>
+            <div class="content">
+                <div class="img-wrap">
+                    <img src="{{ url_for('static', filename='images/sentiment_bottom_k.png') }}">
+                </div>
+                <div class="title">wordCloud: top words for nagtive sentiment</div>
+            </div>
+        </li>
+        <li>
+            <div class="content">
+                <div class="img-wrap">
+                    <img src="{{ url_for('static', filename='images/sentiment_confusion_matrix.png') }}">
+                </div>
+                <div class="title">F1 score: 0.7763</div>
+            </div>
+        </li>
+    </ul>
+
+
+
+
+    <div class="red">
+        <div>
+            <section>
+                <br>
+                <br>
+
+                <h1>Personal Test of Task 1: </h1>
+                <br>
+                <br>
+                <br>
+                <br>
+
+            </section>
+
+        </div>
+    </div>
+
+    <form action="http://localhost:5000/part1_res/" method="POST">
+          <h3 class="test">Model1 TEST</h3>
+          <div class="form-container">
+              <div class="form-group">
+                <input type="text" name='name' class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="your sentence">
+              </div>
+              <div class="form-group">
+                <input type="text" name='num' class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="specify number of args in lime">
+              </div>
+
+              <button type="submit" class="btn btn-primary">Submit</button>
+              <br>
+              <br>
+              <br>
+
+          </div>
+    </form>
+
+
+{% endblock %}

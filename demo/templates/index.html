@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    frontpage
+{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/index.css') }}">
+{% endblock %}
+
+{% block main %}
+        <section>
+        <h1>Class Project: </h1>
+            <h1 class="title">Interpretability of your NLP Classifier</h1>
+            <div>
+                <br>
+                <br>
+                <br>
+            </div>
+        <p>
+            <h2>Wesley Tsai</h2>
+        </p>
+        <p>
+            <h2>Jiazhou Gao</h2>
+        </p>
+            <p>
+            <h2>Nan Shao</h2>
+        </p>
+        </section>
+{% endblock %}

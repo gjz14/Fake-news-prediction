@@ -1,0 +1,45 @@
+body{
+    background: #f3f3f3;
+    text-align: center;
+}
+
+
+.main{
+    background: #fff;
+    width: 730px;
+    width: auto;
+    min-height: 870px;
+    height: auto;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.navbar-brand{
+    font-size: 20px;
+    float: left;
+    width: 100px;
+}
+
+.nav-item{
+    font-size: 20px;
+    width: 100px;
+}
+
+.navbar{
+    margin:0 auto; 	/* 导航栏文字的位置  */
+  /*  width:700px; 	/* 和文字宽度有关，不能小于文字宽度的总和  */
+    height:70px; 	/* 导航栏的宽度  */
+}
+
+.nav a{
+    float: left;
+    width: 140px;
+}
+
+footer {
+    background-color:#343a40;
+    color: white;
+    clear:both;
+    text-align:center;
+    padding:5px;
+}
